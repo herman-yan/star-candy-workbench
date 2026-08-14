@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🌟 爱心小软糖成长世界 · 个人工作台</title>
+<style>
+:root{
+  --bg:#0f1226; --bg2:#171a3a; --card:#1e2350; --card2:#262c63;
+  --txt:#eef1ff; --sub:#a7adde; --line:#333a73;
+  --main:#7c5cff; --main2:#4fc3ff; --gold:#ffd24a; --good:#3ddc97; --bad:#ff6b8a;
+  --shadow:0 8px 28px rgba(0,0,0,.35);
+  --r:18px;
+}
+body.light{
+  --bg:#eef2ff; --bg2:#e3e9ff; --card:#ffffff; --card2:#f3f6ff;
+  --txt:#1c2150; --sub:#5a6196; --line:#d8deff;
+  --shadow:0 8px 24px rgba(80,90,180,.18);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;height:100%}
+body{
+  font-family:-apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  background:radial-gradient(1200px 600px at 80% -10%,#2a2f6e 0%,transparent 60%),
+             radial-gradient(900px 500px at -10% 10%,#3a2a6e 0%,transparent 55%),
+             var(--bg);
+  color:var(--txt);min-height:100%;
+  transition:background .3s,color .3s;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px 96px}
+/* header */
+header{
+  position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);
+  background:linear-gradient(180deg,rgba(15,18,38,.92),rgba(15,18,38,.55));
+  border-bottom:1px solid var(--line);
+}
+body.light header{background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(255,255,255,.6))}
+.bar{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:10px 14px}
+.logo{font-size:20px;font-weight:800;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
+.logo small{font-size:11px;font-weight:600;color:var(--sub)}
+.spacer{flex:1}
+.gem{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);
+  padding:6px 12px;border-radius:999px;font-weight:800;color:var(--gold);box-shadow:var(--shadow)}
+.gem b{font-size:16px}
+.iconbtn{background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:12px;
+  width:40px;height:40px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.iconbtn:active{transform:scale(.94)}
+.role{display:flex;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px}
+.role button{border:0;background:transparent;color:var(--sub);font-weight:700;padding:7px 14px;border-radius:999px;cursor:pointer;font-size:14px}
+.role button.on{background:linear-gradient(135deg,var(--main),var(--main2));color:#fff;box-shadow:var(--shadow)}
+/* nav */
+nav{position:fixed;bottom:0;left:0;right:0;z-index:20;
+  background:linear-gradient(0deg,rgba(15,18,38,.96),rgba(15,18,38,.78));
+  border-top:1px solid var(--line);backdrop-filter:blur(12px)}
+body.light nav{background:linear-gradient(0deg,rgba(255,255,255,.96),rgba(255,255,255,.75))}
+.tabs{max-width:760px;margin:0 auto;display:flex}
+.tabs button{flex:1;border:0;background:transparent;color:var(--sub);padding:10px 4px 12px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:700}
+.tabs button .ic{font-size:22px}
+.tabs button.on{color:var(--main2)}
+.tabs button.on .ic{transform:translateY(-2px)}
+/* cards */
+.card{background:linear-gradient(160deg,var(--card),var(--card2));border:1px solid var(--line);
+  border-radius:var(--r);padding:16px;margin:14px 0;box-shadow:var(--shadow)}
+.card h3{margin:0 0 10px;font-size:15px;display:flex;align-items:center;gap:8px}
+.row{display:flex;align-items:center;gap:10px}
+.muted{color:var(--sub);font-size:13px}
+.pill{font-size:11px;padding:3px 9px;border-radius:999px;background:var(--card2);border:1px solid var(--line);color:var(--sub)}
+.pill.gold{color:var(--gold);border-color:rgba(255,210,74,.4)}
+.btn{border:0;border-radius:14px;padding:11px 16px;font-weight:800;cursor:pointer;font-size:14px;
+  background:linear-gradient(135deg,var(--main),var(--main2));color:#fff;box-shadow:var(--shadow)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--card2);color:var(--txt);border:1px solid var(--line);box-shadow:none}
+.btn.gold{background:linear-gradient(135deg,#ffd24a,#ff9d3d);color:#3a2400}
+.btn.good{background:linear-gradient(135deg,#3ddc97,#1fb6d6);color:#043}
+.btn.bad{background:linear-gradient(135deg,#ff6b8a,#ff4d6d);color:#fff}
+.btn.sm{padding:7px 12px;font-size:13px;border-radius:11px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.grid{display:grid;gap:12px}
+.grid.c2{grid-template-columns:1fr 1fr}
+.task{border:1px solid var(--line);border-radius:14px;padding:13px;background:var(--card2);display:flex;flex-direction:column;gap:8px}
+.task .t{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px}
+.task .meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.done{opacity:.6}
+.badge{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:700}
+.badge.daily{background:rgba(79,195,255,.18);color:var(--main2)}
+.badge.once{background:rgba(124,92,255,.2);color:#b9a6ff}
+.badge.en{background:rgba(61,220,151,.2);color:var(--good)}
+.stat{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}
+.stat .v{font-size:24px;font-weight:900}
+.stat .k{font-size:12px;color:var(--sub);margin-top:4px}
+.ring{width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin:0 auto;font-weight:900;font-size:20px;background:conic-gradient(var(--good) calc(var(--p)*1%),var(--card2) 0)}
+.ledger{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px dashed var(--line);font-size:13px}
+.ledger .amt{font-weight:800;margin-left:auto}
+.ledger .amt.plus{color:var(--good)}
+.ledger .amt.minus{color:var(--bad)}
+.tag{font-size:11px;padding:2px 7px;border-radius:6px;background:var(--card2);color:var(--sub);border:1px solid var(--line)}
+.tag.pending{color:var(--gold);border-color:rgba(255,210,74,.4)}
+.tag.approved{color:var(--good);border-color:rgba(61,220,151,.4)}
+.tag.rejected{color:var(--bad);border-color:rgba(255,107,138,.4)}
+/* modal */
+.mask{position:fixed;inset:0;background:rgba(5,7,20,.6);backdrop-filter:blur(4px);z-index:50;
+  display:none;align-items:flex-end;justify-content:center}
+.mask.show{display:flex}
+.sheet{background:var(--bg2);border:1px solid var(--line);border-radius:22px 22px 0 0;width:100%;max-width:760px;
+  max-height:88vh;overflow:auto;padding:18px 16px 28px;box-shadow:var(--shadow)}
+@media(min-width:760px){.mask{align-items:center}.sheet{border-radius:22px}}
+.sheet h2{margin:0 0 14px;font-size:18px}
+label.f{display:block;margin:12px 0 4px;font-size:13px;color:var(--sub);font-weight:700}
+input,select,textarea{width:100%;padding:11px 12px;border-radius:12px;border:1px solid var(--line);
+  background:var(--card);color:var(--txt);font-size:15px;font-family:inherit}
+textarea{resize:vertical;min-height:64px}
+.chk{display:flex;align-items:center;gap:8px;margin:10px 0}
+.chk input{width:auto}
+.seg{display:flex;gap:8px}
+.seg button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--sub);border-radius:12px;padding:9px;font-weight:700;cursor:pointer}
+.seg button.on{background:linear-gradient(135deg,var(--main),var(--main2));color:#fff;border-color:transparent}
+/* toast */
+#toast{position:fixed;left:50%;top:18%;transform:translateX(-50%);z-index:80;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+.toast{background:var(--card);border:1px solid var(--line);padding:10px 18px;border-radius:999px;font-weight:700;
+  box-shadow:var(--shadow);animation:pop .3s ease}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.hero{text-align:center;padding:22px 8px 6px}
+.hero .big{font-size:42px;font-weight:900;background:linear-gradient(135deg,var(--gold),#ff9d3d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{color:var(--sub);margin-top:4px}
+.empty{text-align:center;color:var(--sub);padding:30px 10px;font-size:14px}
+.speak{display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap}
+.mic{width:54px;height:54px;border-radius:50%;border:0;background:linear-gradient(135deg,var(--bad),#ff4d6d);color:#fff;font-size:22px;cursor:pointer}
+.mic.live{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,77,109,.6)}50%{box-shadow:0 0 0 14px rgba(255,77,109,0)}}
+.small{font-size:12px;color:var(--sub)}
+.danger{color:var(--bad)}
+/* 英语跟读练习 */
+.demo-row{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.demo-row .target{font-size:17px;font-weight:800;color:var(--txt)}
+.demo-row .play{cursor:pointer;border:0;background:rgba(255,193,7,.16);color:var(--main2);border-radius:50%;width:34px;height:34px;font-size:16px;flex:0 0 auto}
+.score{margin-top:12px;padding:12px;border-radius:12px;background:var(--card2);text-align:center}
+.score .stars{font-size:26px;letter-spacing:3px;line-height:1.1}
+.score .lv{font-weight:800;margin-top:4px;font-size:15px}
+.score .cmp{font-size:13px;color:var(--sub);margin-top:8px;text-align:left;line-height:1.6}
+.score .cmp b{color:var(--txt)}
+.score .ok{color:#16a34a}.score .no{color:var(--bad)}
+.scrollx{overflow-x:auto;display:flex;gap:8px;padding-bottom:4px}
+.chipcat{flex:0 0 auto;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card2);color:var(--sub);font-weight:700;font-size:13px;cursor:pointer}
+.chipcat.on{background:linear-gradient(135deg,var(--main),var(--main2));color:#fff;border-color:transparent}
+
+/* ============ 手机 / 平板 响应式优化 ============ */
+body{overflow-x:hidden}
+/* 刘海屏 / 底部安全区适配 */
+@supports(padding:max(0px)){
+  header .bar{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}
+  nav{padding-bottom:max(0px,env(safe-area-inset-bottom))}
+  .wrap{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+}
+/* 英雄数字随屏缩放，输入框 16px 避免 iOS 聚焦缩放 */
+.hero .big{font-size:clamp(30px,10vw,46px)}
+input,select,textarea{font-size:16px}
+/* 网格：手机 1 列 → 平板 2 列 → 大屏 3 列（任务/奖励/口语卡片） */
+@media(min-width:520px){.grid{grid-template-columns:1fr 1fr}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+/* 窄屏（手机）头部紧凑，Logo 可截断，防横向溢出 */
+@media(max-width:560px){
+  .bar{gap:5px;padding:7px 9px}
+  .logo{font-size:14px;gap:4px;flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .logo small{display:none}
+  .iconbtn{width:34px;height:34px;font-size:15px}
+  .role button{padding:5px 9px;font-size:11px}
+  .gem{padding:4px 9px;font-size:12px}
+  .gem b{font-size:14px}
+  .card{padding:14px;margin:12px 0}
+  .task{padding:12px;gap:9px}
+  .task .t{font-size:14px}
+  .btn{padding:12px 16px;font-size:15px;min-height:44px}
+  .btn.sm{min-height:36px}
+  .sheet{padding:16px 14px calc(26px + env(safe-area-inset-bottom))}
+}
+/* 5 个导航标签在窄屏更小更紧凑，标签不换行 */
+@media(max-width:560px){
+  .tabs button{font-size:10px;gap:2px;padding:7px 2px 9px}
+  .tabs button .ic{font-size:19px}
+  .tabs button{white-space:nowrap;overflow:hidden}
+}
+/* 平板：内容区略放宽，避免两侧留白过多 */
+@media(min-width:768px) and (max-width:1024px){
+  .wrap{max-width:820px}
+}
+
+/* ============ iPad / 宽屏布局：左侧边栏导航 ============ */
+@media(min-width:768px){
+  header{z-index:30}
+  nav{top:0;bottom:0;left:0;right:auto;width:208px;border-top:0;border-right:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(15,18,38,.97),rgba(15,18,38,.85));
+    display:flex;align-items:flex-start;justify-content:center;padding-top:80px}
+  body.light nav{background:linear-gradient(180deg,rgba(255,255,255,.97),rgba(255,255,255,.88))}
+  .tabs{flex-direction:column;max-width:none;width:100%;gap:8px;padding:0 12px}
+  .tabs button{flex-direction:row;justify-content:flex-start;gap:14px;font-size:15px;font-weight:800;
+    padding:15px 16px;white-space:nowrap;overflow:hidden}
+  .tabs button .ic{font-size:22px}
+  .tabs button.on{background:linear-gradient(135deg,var(--main),var(--main2));color:#fff;box-shadow:var(--shadow)}
+  .tabs button.on .ic{transform:none}
+  header .bar{max-width:none;padding-left:calc(208px + 24px);padding-right:24px}
+  .logo{font-size:22px}
+  .logo small{display:inline}
+  .wrap{margin:0;margin-left:208px;max-width:1280px;padding:0 40px calc(48px + env(safe-area-inset-bottom))}
+  .hero .big{font-size:clamp(48px,7vw,68px)}
+  .card{padding:20px;margin:18px 0}
+  .task{padding:16px}
+  .grid{grid-template-columns:1fr 1fr}
+}
+@media(min-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ============ 微信联动：消息气泡 + 角标 ============ */
+.tabs button{position:relative}
+.tabs .dot{position:absolute;top:6px;right:50%;transform:translateX(16px);background:var(--bad);color:#fff;
+  font-size:10px;font-weight:800;min-width:16px;height:16px;border-radius:9px;display:flex;align-items:center;
+  justify-content:center;padding:0 4px;box-shadow:0 0 0 2px var(--bg2)}
+@media(min-width:768px){.tabs .dot{top:10px;right:auto;left:auto;margin-left:8px;transform:none;position:static;
+  box-shadow:none}}
+.wx-chat{display:flex;flex-direction:column;gap:14px;margin-top:4px}
+.wx-msg{display:flex;gap:10px;align-items:flex-start}
+.wx-msg.mine{flex-direction:row-reverse}
+.wx-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:20px;background:var(--card2);border:1px solid var(--line);flex:0 0 auto}
+.wx-avatar.p{background:linear-gradient(135deg,#07c160,#0aa14a);border-color:transparent}
+.wx-avatar.c{background:linear-gradient(135deg,var(--main),var(--main2));border-color:transparent}
+.wx-bubble{max-width:74%;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:10px 13px}
+.wx-msg.mine .wx-bubble{background:linear-gradient(135deg,#07c160,#09ad57);color:#fff;border-color:transparent}
+.wx-name{font-size:11px;color:var(--sub);margin-bottom:3px}
+.wx-msg.mine .wx-name{text-align:right;color:rgba(255,255,255,.9)}
+.wx-text{font-size:14px;line-height:1.5;word-break:break-word}
+.wx-time{font-size:10px;color:var(--sub);margin-top:5px;text-align:right}
+.wx-msg.mine .wx-time{color:rgba(255,255,255,.75)}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div class="logo">🍬 爱心小软糖成长世界<small>个人工作台</small></div>
+    <div class="spacer"></div>
+    <div class="gem">💎 <b id="gemTop">0</b></div>
+    <div class="role">
+      <button id="roleChild" onclick="setRole('child')">🧒 孩子</button>
+      <button id="roleParent" onclick="setRole('parent')">👨‍👩‍👦 家长</button>
+    </div>
+    <button class="iconbtn" title="导入/导出数据" onclick="toggleDataMenu()">⚙️</button>
+    <button class="iconbtn" title="切换主题" onclick="toggleTheme()">🌗</button>
+  </div>
+</header>
+
+<div class="wrap" id="app"></div>
+
+<nav>
+  <div class="tabs" id="tabs"></div>
+</nav>
+
+<div id="toast"></div>
+
+<div class="mask" id="mask" onclick="if(event.target===this)closeModal()">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+/* ============ 数据层 ============ */
+const KEY='superpower_workbench_v1';
+const ROLE_KEY='sp_role';
+let DB, role=localStorage.getItem(ROLE_KEY)||'child';
+let view='home';
+
+function uid(){return Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4)}
+function today(){const d=new Date();return fmt(d)}
+function fmt(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function now(){return new Date().toLocaleString('zh-CN',{hour12:false})}
+
+/* 默认任务库：覆盖阅读/数学/英语/运动/练字/语文/生活等，家长可自由启用或禁用。
+   老用户刷新后 load() 会自动补齐缺失的预设项（按 title 匹配，避免重复）。 */
+const PRESET_TASKS=[
+  {title:'阅读30分钟',category:'阅读',crystal:3,frequency:'daily',english:{on:false,mode:'speak',content:''}},
+  {title:'口算训练2张',category:'数学',crystal:3,frequency:'daily',english:{on:false,mode:'speak',content:''}},
+  {title:'完成英语绘本学习',category:'英语',crystal:5,frequency:'daily',english:{on:true,mode:'speak',content:'I can read my English picture book!'}},
+  {title:'跳绳100个',category:'运动',crystal:1,frequency:'daily',english:{on:false,mode:'speak',content:''}},
+  {title:'拍皮球100下',category:'运动',crystal:1,frequency:'daily',english:{on:false,mode:'speak',content:''}},
+  {title:'仰卧起坐20个',category:'运动',crystal:1,frequency:'daily',english:{on:false,mode:'speak',content:''}},
+  {title:'练习跳舞10分钟',category:'运动',crystal:2,frequency:'daily',english:{on:false,mode:'speak',content:''}},
+  {title:'练字1页',category:'练字',crystal:2,frequency:'daily',english:{on:false,mode:'speak',content:''}},
+  {title:'背诵古诗1首',category:'语文',crystal:3,frequency:'daily',english:{on:false,mode:'speak',content:''}},
+  {title:'自己整理书包',category:'生活',crystal:2,frequency:'daily',english:{on:false,mode:'speak',content:''}},
+  {title:'早晚刷牙',category:'生活',crystal:1,frequency:'daily',english:{on:false,mode:'speak',content:''}},
+  {title:'帮做家务',category:'生活',crystal:2,frequency:'daily',english:{on:false,mode:'speak',content:''}}
+];
+function seed(){
+  return {
+    profile:{childName:'星星',created:today()},
+    tasks:PRESET_TASKS.map(p=>({id:uid(),enabled:true,...p})),
+    shop:[
+      {id:uid(),title:'游戏时间30分钟',category:'leisure',crystal:10,desc:'兑换后获得30分钟游戏时间',enabled:true},
+      {id:uid(),title:'看电视时间30分钟',category:'leisure',crystal:8,desc:'兑换后获得30分钟看电视时间',enabled:true},
+      {id:uid(),title:'外出游玩一次',category:'leisure',crystal:30,desc:'周末家庭外出游玩',enabled:true},
+      {id:uid(),title:'文具套装',category:'study',crystal:15,desc:'精美文具一套',enabled:true},
+      {id:uid(),title:'小玩具',category:'physical',crystal:20,desc:'喜欢的小玩具一个',enabled:true},
+      {id:uid(),title:'零食大礼包',category:'physical',crystal:12,desc:'美味零食组合',enabled:true}
+    ],
+    checkins:[],
+    ledger:[],
+    exchanges:[],
+    wishes:[],
+    messages:[]
+  };
+}
+function load(){try{DB=JSON.parse(localStorage.getItem(KEY))}catch(e){DB=null}
+  if(!DB||!DB.tasks){DB=seed();save()}
+  if(!DB.profile)DB.profile={childName:'星星'};
+  /* 自动补齐新增的预设任务（老用户刷新即可看到更多默认选项） */
+  if(DB.tasks&&Array.isArray(DB.tasks)){
+    const have=new Set(DB.tasks.map(t=>t.title));
+    let added=0;
+    PRESET_TASKS.forEach(p=>{ if(!have.has(p.title)){DB.tasks.push({id:uid(),enabled:true,...p});have.add(p.title);added++;} });
+    /* 兼容性：给没有 english 字段的老任务补默认值 */
+    DB.tasks.forEach(t=>{ if(!t.english)t.english={on:false,mode:'speak',content:''}; });
+    if(added)save();
+  }
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(DB))}
+
+/* ledger 唯一账本 */
+function addLedger(type,reason,amount){
+  const prev=balance();
+  DB.ledger.push({id:uid(),ts:Date.now(),time:now(),type,reason,amount,balance:prev+amount});
+  save();return prev+amount;
+}
+function balance(){return DB.ledger.reduce((s,l)=>s+l.amount,0)}
+function earnedTotal(){return DB.ledger.filter(l=>l.amount>0).reduce((s,l)=>s+l.amount,0)}
+function spentTotal(){return DB.ledger.filter(l=>l.amount<0).reduce((s,l)=>s-l.amount,0)}
+
+/* ============ 工具 ============ */
+function toast(msg){
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;
+  document.getElementById('toast').appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .4s';setTimeout(()=>t.remove(),400)},1600);
+}
+function confetti(){
+  const emojis=['💎','⭐','✨','🎉','🌟'];
+  for(let i=0;i<14;i++){const s=document.createElement('div');s.textContent=emojis[i%emojis.length];
+    s.style.cssText='position:fixed;left:50%;top:30%;z-index:90;font-size:'+(18+Math.random()*20)+'px;pointer-events:none;transition:all 1s ease-out';
+    document.body.appendChild(s);
+    requestAnimationFrame(()=>{s.style.transform='translate('+(Math.random()*300-150)+'px,'+(120+Math.random()*200)+'px) rotate('+(Math.random()*360)+'deg)';s.style.opacity='0'});
+    setTimeout(()=>s.remove(),1100);}
+}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+/* ============ 角色 / 主题 ============ */
+function setRole(r){role=r;localStorage.setItem(ROLE_KEY,r);render();}
+function toggleTheme(){document.body.classList.toggle('light');}
+function toggleDataMenu(){
+  openModal('<h2>⚙️ 数据管理</h2>'+
+    '<p class="muted">所有数据均存储在本地（浏览器），不上传云端，保障隐私安全。</p>'+
+    '<div class="grid">'+
+    '<button class="btn gold" onclick="exportData()">📤 导出备份(JSON)</button>'+
+    '<button class="btn ghost" onclick=\'document.getElementById("imp").click()\'>📥 导入备份(JSON)</button>'+
+    '<input id="imp" type="file" accept="application/json" style="display:none" onchange="importData(event)">'+
+    '<button class="btn ghost" onclick="openSettings()">👤 设置(孩子姓名)</button>'+
+    '<button class="btn ghost" onclick="genSync()">📤 微信同步串</button>'+
+    '<button class="btn ghost" onclick="pasteSync()">📥 从微信同步</button>'+
+    (role==='parent'?'<button class="btn bad" onclick="resetData()">🗑️ 清空全部数据</button>':'')+
+    '</div><div style="height:10px"></div><button class="btn ghost" onclick="closeModal()">关闭</button>');
+}
+function exportData(){
+  const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='爱心小软糖成长世界备份_'+today()+'.json';a.click();toast('已导出备份');
+}
+function importData(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);
+    if(!d.tasks||!d.ledger)throw 0;
+    if(confirm('导入将覆盖当前所有数据，确定继续？')){DB=d;save();closeModal();render();toast('导入成功');}
+  }catch(err){toast('文件格式不正确');}};
+  r.readAsText(f);
+}
+function openSettings(){
+  openModal('<h2>👤 设置</h2><label class="f">孩子昵称</label>'+
+    '<input id="cn" value="'+esc(DB.profile.childName)+'">'+
+    '<div style="height:16px"></div><div class="row"><button class="btn" onclick="saveSettings()">保存</button>'+
+    '<button class="btn ghost" onclick="closeModal()">取消</button></div>');
+}
+function saveSettings(){DB.profile.childName=document.getElementById('cn').value.trim()||'星星';save();closeModal();render();toast('已保存');}
+function resetData(){if(confirm('确定清空全部数据？此操作不可恢复！')){DB=seed();save();closeModal();render();toast('已清空');}}
+
+/* ============ 模态框 ============ */
+function openModal(html){document.getElementById('sheet').innerHTML=html;document.getElementById('mask').classList.add('show');}
+function closeModal(){document.getElementById('mask').classList.remove('show');}
+
+/* ============ 考勤统计 ============ */
+function attendance(){
+  const dates=[...new Set(DB.checkins.map(c=>c.date))].sort();
+  const set=new Set(dates);
+  let streak=0;let cur=new Date();
+  if(!set.has(today()))cur.setDate(cur.getDate()-1);
+  while(set.has(fmt(cur))){streak++;cur.setDate(cur.getDate()-1);}
+  const dailyTasks=DB.tasks.filter(t=>t.enabled&&t.frequency==='daily');
+  const todayTasks=new Set(DB.checkins.filter(c=>c.date===today()).map(c=>c.taskId));
+  const todayRate=dailyTasks.length?Math.round(todayTasks.size/dailyTasks.length*100):0;
+  const breaks=[];
+  if(dates.length){let p=new Date(dates[0]);const last=new Date(dates[dates.length-1]);
+    while(p<=last){if(!set.has(fmt(p)))breaks.push(fmt(p));p.setDate(p.getDate()+1);}}
+  return {totalDays:dates.length,streak,todayRate,dailyTotal:dailyTasks.length,todayDone:todayTasks.size,breaks};
+}
+
+/* ============ 渲染分发 ============ */
+const TABS=[
+  {k:'home',ic:'🏠',t:'主页'},
+  {k:'task',ic:'📋',t:'任务台'},
+  {k:'speak',ic:'🗣️',t:'口语'},
+  {k:'shop',ic:'🛒',t:'补给站'},
+  {k:'radar',ic:'📡',t:'雷达'},
+  {k:'wechat',ic:'💬',t:'微信'}
+];
+function render(){
+  document.getElementById('gemTop').textContent=balance();
+  document.getElementById('roleChild').classList.toggle('on',role==='child');
+  document.getElementById('roleParent').classList.toggle('on',role==='parent');
+  const unread=unreadWechat();
+  document.getElementById('tabs').innerHTML=TABS.map(t=>
+    '<button class="'+(view===t.k?'on':'')+'" onclick="view=\''+t.k+'\';render()">'+
+    (t.k==='wechat'&&unread?'<span class="dot">'+unread+'</span>':'')+
+    '<span class="ic">'+t.ic+'</span>'+t.t+'</button>').join('');
+  const map={home:renderHome,task:renderTask,speak:renderSpeak,shop:renderShop,radar:renderRadar,wechat:renderWeChat};
+  document.getElementById('app').innerHTML=map[view]();
+}
+function catName(c){return {leisure:'休闲福利',study:'学习物资',physical:'实物奖励'}[c]||c}
+function freqName(f){return f==='daily'?'每日固定':'阶段任务'}
+
+/* ---- 主页 ---- */
+function renderHome(){
+  const a=attendance();const cn=DB.profile.childName;
+  const todayTasks=DB.tasks.filter(t=>t.enabled&&t.frequency==='daily');
+  const doneToday=todayTasks.filter(t=>DB.checkins.some(c=>c.taskId===t.id&&c.date===today())).length;
+  return '<div class="hero"><div class="big">💎 '+balance()+'</div>'+
+    '<div class="sub">'+esc(cn)+' 的爱心晶石余额</div></div>'+
+  '<div class="card"><div class="row"><div class="ring" style="--p:'+a.todayRate+'">'+a.todayRate+'%</div>'+
+    '<div style="flex:1"><h3 style="margin:0 0 6px">今日任务进度</h3>'+
+    '<div class="muted">已完成 '+doneToday+' / '+todayTasks.length+' 项</div>'+
+    '<div class="muted" style="margin-top:6px">🔥 连续打卡 '+a.streak+' 天 · 累计 '+a.totalDays+' 天</div></div></div>'+
+    (role==='child'
+      ?'<button class="btn" style="width:100%;margin-top:14px" onclick="view=\'task\';render()">🚀 去完成任务赚晶石</button>'
+      :'<button class="btn ghost" style="width:100%;margin-top:14px" onclick="view=\'task\';render()">⚙️ 管理任务与审批</button>')+
+  '</div>'+
+  '<div class="grid c2">'+
+    '<div class="stat"><div class="v" style="color:var(--good)">'+earnedTotal()+'</div><div class="k">累计获得 💎</div></div>'+
+    '<div class="stat"><div class="v" style="color:var(--bad)">'+spentTotal()+'</div><div class="k">累计消耗 💎</div></div>'+
+  '</div>'+
+  (role==='child'?'<div class="card" style="cursor:pointer" onclick="view=\'speak\';render()"><div class="row"><div style="font-size:30px">🗣️</div><div style="flex:1"><h3 style="margin:0">英语口语练习</h3><div class="muted">跟着念一念，勇敢开口说英语！点这里开始 →</div></div></div></div>':'')+
+  (role==='parent'?'<div class="card"><h3>👨‍👩‍👦 家长速览</h3>'+
+    '<div class="muted">待审批：'+(DB.exchanges.concat(DB.wishes).filter(x=>x.status==='pending').length)+' 项</div>'+
+    '<button class="btn ghost sm" style="margin-top:10px" onclick="view=\'shop\';render()">前往补给站审批 →</button></div>':'');
+}
+
+/* ---- 任务台 ---- */
+function renderTask(){
+  if(role==='child')return childTask();
+  return parentTask();
+}
+function childTask(){
+  const tasks=DB.tasks.filter(t=>t.enabled);
+  const cards=tasks.map(t=>{
+    const done=DB.checkins.some(c=>c.taskId===t.id&&(t.frequency==='daily'?c.date===today():true));
+    const en=t.english&&t.english.on;
+    let html='<div class="task '+(done?'done':'')+'">'+
+      '<div class="t">'+esc(t.title)+(en?' <span class="badge en">🗣️ 英语</span>':'')+
+        (t.frequency==='daily'?' <span class="badge daily">每日</span>':' <span class="badge once">阶段</span>')+'</div>'+
+      '<div class="meta"><span class="pill gold">💎 +'+t.crystal+'</span><span class="pill">'+esc(t.category)+'</span></div>';
+    if(done){
+      html+='<button class="btn ghost sm" disabled>✅ 今日已完成</button>';
+      if(t.frequency!=='daily') html+='<button class="btn ghost sm" data-act="undoCheckin" data-id="'+t.id+'">撤销</button>';
+    } else {
+      html+='<button class="btn" data-act="doCheckin" data-id="'+t.id+'">✅ 打卡完成</button>';
+    }
+    html+='</div>';
+    return html;
+  }).join('');
+  return '<div class="card"><h3>📋 任务台</h3><div class="muted">完成下面的任务就能赚取爱心晶石 💎！</div></div>'+
+    '<div class="grid">'+cards+'</div>'+(tasks.length?'':'<div class="empty">还没有任务，快让爸爸妈妈来添加吧～</div>');
+}
+function parentTask(){
+  const tasks=DB.tasks;
+  const cards=tasks.map(t=>{
+    const en=t.english&&t.english.on;
+    return '<div class="task">'+
+      '<div class="t">'+esc(t.title)+(en?' <span class="badge en">🗣️ 英语</span>':'')+
+        (t.frequency==='daily'?' <span class="badge daily">每日</span>':' <span class="badge once">阶段</span>')+'</div>'+
+      '<div class="meta"><span class="pill gold">💎 '+t.crystal+'</span><span class="pill">'+esc(t.category)+'</span>'+
+        (t.enabled?'':' <span class="pill">已停用</span>')+'</div>'+
+      '<div class="row">'+
+        '<button class="btn ghost sm" onclick="editTask(\''+t.id+'\')">编辑</button>'+
+        '<button class="btn ghost sm" onclick="toggleTask(\''+t.id+'\')">'+(t.enabled?'停用':'启用')+'</button>'+
+        '<button class="btn bad sm" onclick="delTask(\''+t.id+'\')">删除</button>'+
+      '</div></div>';
+  }).join('');
+  return '<div class="card"><h3>📋 任务台（家长管理）</h3>'+
+    '<div class="muted">自定义任务、设置晶石奖励。孩子打卡后晶石即时到账。</div>'+
+    '<button class="btn" style="margin-top:10px" onclick="editTask()">➕ 新增任务</button></div>'+
+    '<div class="grid">'+cards+'</div>';
+}
+function doCheckin(id){
+  const t=DB.tasks.find(x=>x.id===id);if(!t)return;
+  if(DB.checkins.some(c=>c.taskId===id&&(t.frequency==='daily'?c.date===today():true))){toast('已经打过卡啦');return;}
+  if(t.english&&t.english.on){window._spId=id;openSpeechCheckin(t);return;}
+  DB.checkins.push({id:uid(),taskId:id,date:today(),crystal:t.crystal,note:'',ts:Date.now()});
+  addLedger('earn','完成任务：'+t.title,t.crystal);
+  pushMsg('child','✅ 我完成了【'+t.title+'】，获得 '+t.crystal+'💎！','done');
+  save();confetti();toast('🎉 +'+t.crystal+' 爱心晶石！');render();
+}
+function undoCheckin(id){
+  const i=DB.checkins.findIndex(c=>c.taskId===id&&(DB.tasks.find(t=>t.id===id).frequency==='daily'?c.date===today():true));
+  if(i<0)return;const c=DB.checkins[i];DB.checkins.splice(i,1);
+  addLedger('adjust','撤销：'+(DB.tasks.find(t=>t.id===id).title),-c.crystal);
+  save();toast('已撤销');render();
+}
+function openSpeechCheckin(t){
+  const en=t.english||{on:true,mode:'speak',content:''};
+  const lang=en.mode==='speak'?'en-US':'zh-CN';
+  const supSpeech=('SpeechRecognition'in window)||('webkitSpeechRecognition'in window);
+  const c=esc(en.content);
+  openModal('<h2>🗣️ 英语口语练习</h2>'+
+    '<div class="card" style="margin:0 0 12px"><b>'+esc(t.title)+'</b>'+
+    (en.content?
+      '<div class="demo-row"><span class="target" id="targetTxt">'+c+'</span>'+
+      '<button class="play" title="听示范" onclick="speakDemo(\''+c.replace(/'/g,"\\'")+'\',\''+lang+'\')">🔊</button>'+
+      '<span class="small muted">点🔊听示范</span></div>'
+      :'<p class="muted" style="margin:8px 0">这个任务没有预设句子，直接点🎤录音或打字练习即可。</p>')+
+    '<div class="speak">'+
+      (supSpeech
+        ? '<button class="mic" id="mic" onclick="startSpeech(\''+lang+'\')">🎤</button><span id="srState" class="small">点击麦克风，跟读上面的句子</span>'
+        : '<button class="mic" id="mic" onclick="toast(\'本设备不支持语音识别，请直接打字\')">🎤</button><span id="srState" class="small" style="color:var(--bad)">本设备无语音识别，请直接打字 ⬇️</span>')+
+    '</div>'+
+    '<label class="f">我的跟读内容（可手动修改）</label>'+
+    '<textarea id="srText" placeholder="点🎤录音会自动填入，或手动输入你读的内容"></textarea>'+
+    '<div class="score" id="scoreBox" style="display:none"></div>'+
+    '<div class="small muted" style="margin-top:8px">💡 没有麦克风也没关系，直接打字输入你读的内容，一样可以打卡得晶石～</div>'+
+    '<div style="height:14px"></div><div class="row"><button class="btn good" onclick="confirmSpeech(\''+t.id+'\')">完成打卡 +'+t.crystal+'💎</button>'+
+    '<button class="btn ghost" onclick="closeModal()">取消</button></div>');
+}
+let recog=null;
+function startSpeech(lang){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast('当前浏览器不支持语音识别，请手动输入');return;}
+  if(recog){try{recog.stop()}catch(e){}}
+  recog=new SR();recog.lang=lang;recog.interimResults=false;recog.maxAlternatives=1;
+  const mic=document.getElementById('mic'),st=document.getElementById('srState');
+  mic.classList.add('live');st.textContent='聆听中…请开口跟读';
+  recog.onresult=e=>{const v=e.results[0][0].transcript;document.getElementById('srText').value=v;st.textContent='识别完成 ✅';showScore(v,lang);};
+  recog.onerror=()=>{st.textContent='没听清，请重试或手动输入';mic.classList.remove('live');};
+  recog.onend=()=>{mic.classList.remove('live');};
+  recog.start();
+}
+/* 跟读匹配评分：基于 Levenshtein 相似度给 1~3 星反馈（纯前端，无需后端） */
+function similarity(a,b){
+  a=(a||'').toLowerCase().replace(/[^a-z0-9一-龥 ]/g,'').trim();
+  b=(b||'').toLowerCase().replace(/[^a-z0-9一-龥 ]/g,'').trim();
+  if(!a&&!b)return 1;if(!a||!b)return 0;
+  const m=a.length,n=b.length;const d=Array.from({length:m+1},(_,i)=>[i,...Array(n).fill(0)]);
+  for(let j=0;j<=n;j++)d[0][j]=j;
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){const c=a[i-1]===b[j-1]?0:1;d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+c);}
+  return 1-d[m][n]/Math.max(m,n);
+}
+function showScore(text,lang){
+  const t=DB.tasks.find(x=>x.id===window._spId);
+  const target=(t&&t.english&&t.english.content)||'';
+  const box=document.getElementById('scoreBox');if(!box)return;
+  if(!text){box.style.display='none';return;}
+  const s=target?similarity(text,target):0.6;
+  let stars,lv,tip;
+  if(s>=0.85){stars='⭐⭐⭐';lv='太棒了！读得很准 👍';tip='继续保持，去完成打卡吧！';}
+  else if(s>=0.6){stars='⭐⭐';lv='不错，再练练更棒 💪';tip='已经很接近了，可以多听几遍示范。';}
+  else {stars='⭐';lv='加油，再试一次 🌟';tip='别灰心，先点🔊多听几遍，再跟读～';}
+  box.style.display='block';
+  box.innerHTML='<div class="stars">'+stars+'</div><div class="lv">'+lv+'</div>'+
+    (target?'<div class="cmp">目标：<b>'+esc(target)+'</b><br>我读：<b class="'+(s>=0.6?'ok':'no')+'">'+esc(text)+'</b></div>':'')+
+    '<div class="small muted">'+tip+'</div>';
+  if(lang==='en-US'&&'speechSynthesis'in window&&s<0.85){setTimeout(()=>speakDemo(target,'en-US'),300);}
+}
+function speakDemo(text,lang){
+  if(!text||!('speechSynthesis'in window)){toast('无可播放内容');return;}
+  const u=new SpeechSynthesisUtterance(text);u.lang=lang;u.rate=.85;speechSynthesis.speak(u);
+}
+function confirmSpeech(id){
+  const t=DB.tasks.find(x=>x.id===id);if(!t)return;
+  if(DB.checkins.some(c=>c.taskId===id&&(t.frequency==='daily'?c.date===today():true))){toast('今天已经练习过啦');return;}
+  const note=document.getElementById('srText').value.trim();
+  DB.checkins.push({id:uid(),taskId:id,date:today(),crystal:t.crystal,note,ts:Date.now()});
+  addLedger('earn','完成任务：'+t.title,t.crystal);
+  pushMsg('child','✅ 我完成了口语练习【'+t.title+'】，获得 '+t.crystal+'💎！','done');
+  save();confetti();closeModal();toast('🎉 +'+t.crystal+' 爱心晶石！');render();
+}
+
+/* 任务编辑 */
+function editTask(id){
+  const t=id?DB.tasks.find(x=>x.id===id):{title:'',category:'阅读',crystal:3,frequency:'daily',enabled:true,english:{on:false,mode:'speak',content:''}};
+  const en=t.english||{on:false,mode:'speak',content:''};
+  openModal('<h2>'+(id?'✏️ 编辑任务':'➕ 新增任务')+'</h2>'+
+    '<label class="f">任务名称</label><input id="t_title" value="'+esc(t.title)+'" placeholder="如：阅读30分钟">'+
+    '<label class="f">分类</label><input id="t_cat" value="'+esc(t.category)+'" placeholder="阅读/数学/英语/运动…">'+
+    '<label class="f">晶石奖励（颗）</label><input id="t_gem" type="number" min="0" value="'+t.crystal+'">'+
+    '<label class="f">任务类型</label><div class="seg" id="t_freq">'+
+      '<button class="'+(t.frequency==='daily'?'on':'')+'" data-v="daily" onclick="seg(this,\'t_freq\')">每日固定</button>'+
+      '<button class="'+(t.frequency!=='daily'?'on':'')+'" data-v="once" onclick="seg(this,\'t_freq\')">阶段任务</button></div>'+
+    '<div class="chk"><input type="checkbox" id="t_en" '+(en.on?'checked':'')+' onchange="document.getElementById(\'en_box\').style.display=this.checked?\'block\':\'none\'"> <label for="t_en">🗣️ 英语口语练习任务</label></div>'+
+    '<div id="en_box" style="display:'+(en.on?'block':'none')+'">'+
+      '<label class="f">练习模式</label><div class="seg" id="t_mode">'+
+        '<button class="'+(en.mode==='speak'?'on':'')+'" data-v="speak" onclick="seg(this,\'t_mode\')">口语跟读</button>'+
+        '<button class="'+(en.mode!=='speak'?'on':'')+'" data-v="read" onclick="seg(this,\'t_mode\')">中文朗读</button></div>'+
+      '<label class="f">练习内容（孩子要读的句子/单词）</label><textarea id="t_content" placeholder="如：I can read my book!">'+esc(en.content)+'</textarea>'+
+    '</div>'+
+    '<div style="height:16px"></div><div class="row"><button class="btn" onclick="saveTask(\''+(id||'')+'\')">保存</button>'+
+    '<button class="btn ghost" onclick="closeModal()">取消</button></div>');
+}
+function seg(el,grp){document.querySelectorAll('#'+grp+' button').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
+function saveTask(id){
+  const title=document.getElementById('t_title').value.trim();
+  if(!title){toast('请填写任务名称');return;}
+  const crystal=parseInt(document.getElementById('t_gem').value)||0;
+  const freq=document.querySelector('#t_freq .on').dataset.v;
+  const enOn=document.getElementById('t_en').checked;
+  const en={on:enOn,mode:enOn?document.querySelector('#t_mode .on').dataset.v:'speak',content:enOn?document.getElementById('t_content').value.trim():''};
+  if(id){const t=DB.tasks.find(x=>x.id===id);Object.assign(t,{title,category:document.getElementById('t_cat').value.trim()||'其他',crystal,frequency:freq,english:en});}
+  else {DB.tasks.push({id:uid(),title,category:document.getElementById('t_cat').value.trim()||'其他',crystal,frequency:freq,enabled:true,english:en});
+    pushMsg('parent','📋 我给你布置了新任务：'+title+'（'+crystal+'💎），快去完成吧！','task');}
+  save();closeModal();render();toast('已保存');
+}
+function toggleTask(id){const t=DB.tasks.find(x=>x.id===id);t.enabled=!t.enabled;save();render();}
+function delTask(id){if(confirm('确定删除该任务？')){DB.tasks=DB.tasks.filter(x=>x.id!==id);save();render();}}
+
+/* ---- 补给站 ---- */
+function renderShop(){
+  if(role==='child')return childShop();
+  return parentShop();
+}
+let shopFilter='all';
+function childShop(){
+  const items=DB.shop.filter(s=>s.enabled&&(shopFilter==='all'||s.category===shopFilter));
+  const cats=[['all','全部'],['leisure','休闲福利'],['study','学习物资'],['physical','实物奖励']];
+  const chips=cats.map(c=>'<div class="chipcat '+(shopFilter===c[0]?'on':'')+'" onclick="shopFilter=\''+c[0]+'\';render()">'+c[1]+'</div>').join('');
+  const cards=items.map(s=>{
+    const pending=DB.exchanges.find(e=>e.itemId===s.id&&e.status==='pending');
+    return '<div class="task"><div class="t">'+esc(s.title)+'</div>'+
+      (s.desc?'<div class="muted" style="font-size:13px">'+esc(s.desc)+'</div>':'')+
+      '<div class="meta"><span class="pill gold">💎 '+s.crystal+'</span><span class="pill">'+catName(s.category)+'</span></div>'+
+      (pending?'<button class="btn ghost sm" disabled>⏳ 等待家长审批</button>'
+              :balance()<s.crystal?'<button class="btn ghost sm" disabled>晶石不足</button>'
+              :'<button class="btn gold" onclick="reqExchange(\''+s.id+'\')">兑换 💎'+s.crystal+'</button>')+
+    '</div>';
+  }).join('');
+  const myWish=DB.wishes.filter(w=>w.status==='pending').length;
+  return '<div class="card"><h3>🛒 补给站</h3>'+
+    '<div class="muted">用晶石兑换奖励或提交心愿，需家长审批哦～</div>'+
+    '<div class="scrollx" style="margin-top:10px">'+chips+'</div>'+
+    '<button class="btn ghost sm" style="margin-top:10px" onclick="openWish()">⭐ 提交心愿</button>'+
+    (myWish?'<span class="pill gold" style="margin-left:8px">'+myWish+' 个心愿审批中</span>':'')+'</div>'+
+    '<div class="grid">'+cards+'</div>'+(items.length?'':'<div class="empty">该分类暂无奖励</div>');
+}
+function parentShop(){
+  const items=DB.shop;
+  const cards=items.map(s=>'<div class="task"><div class="t">'+esc(s.title)+
+    (s.enabled?'':' <span class="pill">已下架</span>')+'</div>'+
+    (s.desc?'<div class="muted" style="font-size:13px">'+esc(s.desc)+'</div>':'')+
+    '<div class="meta"><span class="pill gold">💎 '+s.crystal+'</span><span class="pill">'+catName(s.category)+'</span></div>'+
+    '<div class="row"><button class="btn ghost sm" onclick="editShop(\''+s.id+'\')">编辑</button>'+
+    '<button class="btn ghost sm" onclick="toggleShop(\''+s.id+'\')">'+(s.enabled?'下架':'上架')+'</button>'+
+    '<button class="btn bad sm" onclick="delShop(\''+s.id+'\')">删除</button></div></div>').join('');
+  const pend=DB.exchanges.filter(e=>e.status==='pending').concat(DB.wishes.filter(w=>w.status==='pending'));
+  let approveHtml='';
+  if(pend.length){
+    approveHtml='<div class="card"><h3>✅ 待审批（'+pend.length+'）</h3>';
+    DB.exchanges.filter(e=>e.status==='pending').forEach(e=>{
+      const s=DB.shop.find(x=>x.id===e.itemId);
+      approveHtml+='<div class="ledger"><div><div style="font-weight:700">💱 兑换：'+esc(s?s.title:e.itemTitle)+'</div>'+
+        '<div class="small muted">'+e.time+'</div></div>'+
+        '<div class="row" style="margin-left:auto"><button class="btn good sm" onclick="approveExchange(\''+e.id+'\')">通过</button>'+
+        '<button class="btn bad sm" onclick="rejectExchange(\''+e.id+'\')">驳回</button></div></div>';
+    });
+    DB.wishes.filter(w=>w.status==='pending').forEach(w=>{
+      approveHtml+='<div class="ledger"><div><div style="font-weight:700">⭐ 心愿：'+esc(w.title)+'（'+w.crystal+'💎）</div>'+
+        '<div class="small muted">'+(w.note?esc(w.note)+' · ':'')+w.time+'</div></div>'+
+        '<div class="row" style="margin-left:auto"><button class="btn good sm" onclick="approveWish(\''+w.id+'\')">通过</button>'+
+        '<button class="btn ghost sm" onclick="editWish(\''+w.id+'\')">调整</button>'+
+        '<button class="btn bad sm" onclick="rejectWish(\''+w.id+'\')">驳回</button></div></div>';
+    });
+    approveHtml+='</div>';
+  }
+  return approveHtml+
+    '<div class="card"><h3>🛒 奖励商店（家长管理）</h3>'+
+    '<button class="btn" style="margin-top:6px" onclick="editShop()">➕ 上架奖励</button></div>'+
+    '<div class="grid">'+cards+'</div>';
+}
+function reqExchange(id){
+  const s=DB.shop.find(x=>x.id===id);if(!s)return;
+  DB.exchanges.push({id:uid(),itemId:id,itemTitle:s.title,crystal:s.crystal,status:'pending',time:now()});
+  pushMsg('child','💱 我想兑换【'+s.title+'】('+s.crystal+'💎)，请审批~','req');
+  save();toast('已提交，等待家长审批 ⏳');render();
+}
+function approveExchange(id){
+  const e=DB.exchanges.find(x=>x.id===id);if(!e)return;
+  if(balance()<e.crystal){toast('晶石不足，无法兑换');return;}
+  addLedger('spend','兑换：'+e.itemTitle,-e.crystal);e.status='approved';
+  pushMsg('parent','✅ 你的兑换【'+e.itemTitle+'】已通过，扣除 '+e.crystal+'💎','approve');
+  save();toast('兑换已通过 ✅');render();
+}
+function rejectExchange(id){const e=DB.exchanges.find(x=>x.id===id);if(e){e.status='rejected';
+  pushMsg('parent','❌ 你的兑换【'+e.itemTitle+'】未通过，再加油哦~','reject');save();render();toast('已驳回');}}
+function editShop(id){
+  const s=id?DB.shop.find(x=>x.id===id):{title:'',category:'leisure',crystal:10,desc:'',enabled:true};
+  openModal('<h2>'+(id?'✏️ 编辑奖励':'➕ 上架奖励')+'</h2>'+
+    '<label class="f">奖励名称</label><input id="s_title" value="'+esc(s.title)+'">'+
+    '<label class="f">类别</label><div class="seg" id="s_cat">'+
+      ['leisure','study','physical'].map(c=>'<button class="'+(s.category===c?'on':'')+'" data-v="'+c+'" onclick="seg(this,\'s_cat\')">'+catName(c)+'</button>').join('')+'</div>'+
+    '<label class="f">晶石售价（颗）</label><input id="s_gem" type="number" min="0" value="'+s.crystal+'">'+
+    '<label class="f">说明（选填）</label><textarea id="s_desc">'+esc(s.desc)+'</textarea>'+
+    '<div style="height:16px"></div><div class="row"><button class="btn" onclick="saveShop(\''+(id||'')+'\')">保存</button>'+
+    '<button class="btn ghost" onclick="closeModal()">取消</button></div>');
+}
+function saveShop(id){
+  const title=document.getElementById('s_title').value.trim();if(!title){toast('请填写名称');return;}
+  const crystal=parseInt(document.getElementById('s_gem').value)||0;
+  const category=document.querySelector('#s_cat .on').dataset.v;
+  if(id){const s=DB.shop.find(x=>x.id===id);Object.assign(s,{title,category,crystal,desc:document.getElementById('s_desc').value.trim()});}
+  else DB.shop.push({id:uid(),title,category,crystal,desc:document.getElementById('s_desc').value.trim(),enabled:true});
+  save();closeModal();render();toast('已保存');
+}
+function toggleShop(id){const s=DB.shop.find(x=>x.id===id);s.enabled=!s.enabled;save();render();}
+function delShop(id){if(confirm('确定删除该奖励？')){DB.shop=DB.shop.filter(x=>x.id!==id);save();render();}}
+
+/* 心愿 */
+function openWish(){
+  openModal('<h2>⭐ 提交心愿</h2><p class="muted">告诉爸爸妈妈你想要的奖励，他们会审批哦～</p>'+
+    '<label class="f">我的心愿</label><input id="w_title" placeholder="如：想要一个乐高积木">'+
+    '<label class="f">预计需要晶石（颗）</label><input id="w_gem" type="number" min="0" value="20">'+
+    '<label class="f">留言（选填）</label><textarea id="w_note" placeholder="为什么想要这个奖励～"></textarea>'+
+    '<div style="height:16px"></div><div class="row"><button class="btn gold" onclick="saveWish()">提交心愿</button>'+
+    '<button class="btn ghost" onclick="closeModal()">取消</button></div>');
+}
+function saveWish(){
+  const title=document.getElementById('w_title').value.trim();if(!title){toast('请填写心愿');return;}
+  const crystal=parseInt(document.getElementById('w_gem').value)||0;
+  DB.wishes.push({id:uid(),title,crystal,note:document.getElementById('w_note').value.trim(),status:'pending',time:now()});
+  pushMsg('child','⭐ 我许愿【'+title+'】('+crystal+'💎)，请看看~','wish');
+  save();closeModal();toast('心愿已提交 ⭐');render();
+}
+function editWish(id){
+  const w=DB.wishes.find(x=>x.id===id);if(!w)return;
+  openModal('<h2>⭐ 调整心愿晶石</h2><label class="f">心愿</label><input id="w_title" value="'+esc(w.title)+'">'+
+    '<label class="f">晶石（家长可调整）</label><input id="w_gem" type="number" min="0" value="'+w.crystal+'">'+
+    '<label class="f">审批留言</label><textarea id="w_note" placeholder="写给孩子的话">'+(w.parentNote||'')+'</textarea>'+
+    '<div style="height:16px"></div><div class="row"><button class="btn good" onclick="approveWish(\''+id+'\',true)">通过(按调整后)</button>'+
+    '<button class="btn ghost" onclick="closeModal()">取消</button></div>');
+}
+function approveWish(id,fromEdit){
+  const w=DB.wishes.find(x=>x.id===id);if(!w)return;
+  let crystal=w.crystal;
+  if(fromEdit){
+    crystal=parseInt(document.getElementById('w_gem').value)||0;
+    w.title=document.getElementById('w_title').value.trim()||w.title;
+    w.parentNote=document.getElementById('w_note').value.trim();
+  }
+  if(balance()<crystal){toast('晶石不足，无法达成心愿');if(fromEdit)closeModal();return;}
+  addLedger('spend','心愿达成：'+w.title,-crystal);
+  w.crystal=crystal;w.status='approved';
+  pushMsg('parent','🎉 你的心愿【'+w.title+'】达成啦！','approveWish');
+  save();closeModal();toast('心愿达成 🎉');render();
+}
+function rejectWish(id){const w=DB.wishes.find(x=>x.id===id);if(w){w.status='rejected';
+  pushMsg('parent','❌ 心愿【'+w.title+'】暂时没通过~','rejectWish');save();render();toast('已驳回');}}
+
+/* ---- 雷达 ---- */
+function renderRadar(){
+  const a=attendance();
+  const led=DB.ledger.slice().reverse();
+  const apps=DB.exchanges.concat(DB.wishes).map(x=>({...x,kind:x.itemId!==undefined?'兑换':'心愿'}))
+    .sort((p,q)=>(q.time||'').localeCompare(p.time||''));
+  const appHtml=apps.length?apps.map(x=>{
+    const st={pending:['待审批','pending'],approved:['已通过','approved'],rejected:['已驳回','rejected']}[x.status];
+    const name=x.kind==='兑换'?(x.itemTitle||'奖励'):x.title;
+    return '<div class="ledger"><div><div style="font-weight:700">'+x.kind+'：'+esc(name)+'</div>'+
+      '<div class="small muted">'+(x.time||'')+'</div></div>'+
+      '<span class="tag '+(x.itemId!==undefined?'':'')+' '+st[1]+'">'+st[0]+'</span></div>';
+  }).join(''):'<div class="empty">暂无审批记录</div>';
+  const ledHtml=led.length?led.map(l=>'<div class="ledger"><div><div>'+(l.type==='earn'?'📥':'📤')+' '+esc(l.reason)+'</div>'+
+    '<div class="small muted">'+l.time+' · 余 '+l.balance+'💎</div></div>'+
+    '<span class="amt '+(l.amount>=0?'plus':'minus')+'">'+(l.amount>=0?'+':'')+l.amount+'💎</span></div>').join('')
+    :'<div class="empty">暂无流水</div>';
+  const breaksHtml=a.breaks.length?a.breaks.slice(-10).map(b=>'<span class="pill">'+b+'</span>').join(' '):'<span class="muted">无断卡记录 🎉</span>';
+  return ''+
+  '<div class="grid c2">'+
+    '<div class="stat"><div class="v" style="color:var(--gold)">'+balance()+'</div><div class="k">当前晶石 💎</div></div>'+
+    '<div class="stat"><div class="v" style="color:var(--good)">'+earnedTotal()+'</div><div class="k">累计获得</div></div>'+
+    '<div class="stat"><div class="v" style="color:var(--bad)">'+spentTotal()+'</div><div class="k">累计消耗</div></div>'+
+    '<div class="stat"><div class="v" style="color:var(--main2)">'+a.totalDays+'</div><div class="k">累计打卡天</div></div>'+
+  '</div>'+
+  '<div class="card"><h3>🔥 打卡考勤</h3>'+
+    '<div class="grid c2" style="margin-bottom:8px">'+
+      '<div class="stat"><div class="v">'+a.streak+'</div><div class="k">连续打卡(天)</div></div>'+
+      '<div class="stat"><div class="v">'+a.todayRate+'%</div><div class="k">今日完成率</div></div>'+
+    '</div>'+
+    '<div class="muted">断卡记录（近10次）：</div><div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px">'+breaksHtml+'</div>'+
+  '</div>'+
+  '<div class="card"><h3>📊 爱心晶石流水</h3>'+ledHtml+'</div>'+
+  '<div class="card"><h3>📝 审批记录</h3>'+appHtml+'</div>';
+}
+
+/* ---- 英语口语练习 ---- */
+function renderSpeak(){
+  const items=DB.tasks.filter(t=>t.enabled&&t.english&&t.english.on);
+  function card(t){
+    const cnt=DB.checkins.filter(c=>c.taskId===t.id).length;
+    const done=DB.checkins.some(c=>c.taskId===t.id&&(t.frequency==='daily'?c.date===today():true));
+    const en=t.english||{mode:'speak',content:''};
+    const modeTxt=en.mode==='speak'?'口语跟读':'中文朗读';
+    let h='<div class="task">';
+    h+='<div class="t">'+esc(t.title)+' <span class="badge en">🗣️ 英语</span> <span class="badge '+(t.frequency==='daily'?'daily':'once')+'">'+(t.frequency==='daily'?'每日':'阶段')+'</span></div>';
+    h+='<div class="meta"><span class="pill gold">💎 +'+t.crystal+'</span><span class="pill">'+modeTxt+'</span><span class="pill">已练习 '+cnt+' 次</span></div>';
+    if(en.content) h+='<div style="margin:8px 0;font-size:18px;font-weight:800;color:var(--txt)">“'+esc(en.content)+'”</div>';
+    if(role==='child'){
+      h+= done?'<button class="btn ghost sm" disabled>✅ 今日已练习</button>'
+              :'<button class="btn good" data-act="openSpeak" data-id="'+t.id+'">🎤 去练习</button>';
+    } else {
+      h+='<button class="btn ghost sm" data-act="editTask" data-id="'+t.id+'">✏️ 编辑</button>';
+    }
+    h+='</div>';
+    return h;
+  }
+  const grid=items.length?items.map(card).join(''):'<div class="empty">还没有英语口语任务。<br>请家长在「任务台」里把任务标记为 🗣️ 英语口语练习任务，<br>或新增一个英语任务，就能在这里练习啦～</div>';
+  const intro= role==='child'
+    ? '<div class="card"><h3>🗣️ 英语口语练习</h3><div class="muted">跟着念一念，勇敢开口说英语！先点🔊听示范，再点🎤麦克风跟读（或手动输入你读的内容），完成就能赚爱心晶石 💎。</div></div>'
+    : '<div class="card"><h3>🗣️ 英语口语任务</h3><div class="muted">这里汇总所有标记为「英语口语练习」的任务。点「编辑」可调整练习内容、语言（口语跟读 / 中文朗读）。</div></div>';
+  return intro+'<div class="grid">'+grid+'</div>';
+}
+
+/* ============ 微信联动 ============ */
+function unreadWechat(){
+  return (DB.messages||[]).filter(m=>m.to===role&&!m.read).length;
+}
+function pushMsg(from,text,type){
+  if(!DB.messages)DB.messages=[];
+  DB.messages.push({id:uid(),from,to:from==='parent'?'child':'parent',text,type,time:now(),read:false,ts:Date.now()});
+  save();
+}
+function renderWeChat(){
+  const msgs=(DB.messages||[]);
+  msgs.forEach(m=>{if(m.to===role)m.read=true});save();
+  const chat=msgs.length?msgs.map(m=>{
+    const mine=m.from===role;
+    return '<div class="wx-msg '+(mine?'mine':'')+'">'+
+      '<div class="wx-avatar '+(m.from==='parent'?'p':'c')+'">'+(m.from==='parent'?'👨‍👩‍👦':'🧒')+'</div>'+
+      '<div class="wx-bubble"><div class="wx-name">'+(m.from==='parent'?'家长':'孩子')+(mine?'（我）':'')+'</div>'+
+      '<div class="wx-text">'+esc(m.text)+'</div>'+
+      '<div class="wx-time">'+esc(m.time)+'</div></div></div>';
+  }).join('') : '<div class="empty">还没有消息。<br>布置任务、打卡、兑换审批都会在这里以微信消息通知对方～</div>';
+  const hint= role==='child'
+    ? '<div class="card"><h3>💬 微信联动</h3><div class="muted">这是你和爸爸妈妈的专属聊天通道。打卡、兑换、心愿都会自动发消息通知对方，就像在微信里聊天一样～</div>'+
+      '<div class="row" style="margin-top:10px"><button class="btn ghost sm" onclick="pasteSync()">📥 从微信粘贴同步</button></div></div>'
+    : '<div class="card"><h3>💬 微信联动</h3><div class="muted">这里是和孩子的微信联动通道。孩子打卡、申请兑换/心愿会自动通知你；你布置任务、审批结果也会发给孩子。</div>'+
+      '<div class="row" style="margin-top:10px"><button class="btn ghost sm" onclick="genSync()">📤 生成同步串发给家人</button>'+
+      '<button class="btn ghost sm" onclick="pasteSync()">📥 从微信粘贴同步</button></div></div>';
+  return hint+'<div class="wx-chat">'+chat+'</div>';
+}
+/* 微信同步串：把本地数据打包成文本，通过微信发给对方，对方粘贴即同步（本地单文件无云服务时的真实联动方案） */
+function b64encode(str){return btoa(unescape(encodeURIComponent(str)))}
+function b64decode(b){return decodeURIComponent(escape(atob(b)))}
+function copyText(t){
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(()=>toast('已复制，去微信粘贴发送')).catch(()=>fallbackCopy(t));}
+  else fallbackCopy(t);
+}
+function fallbackCopy(t){const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('已复制，去微信粘贴发送');}catch(e){toast('复制失败，请手动选择');}ta.remove();}
+function genSync(){
+  const s=b64encode(JSON.stringify({v:1,db:DB}));
+  copyText(s);
+  openModal('<h2>📤 微信同步串</h2>'+
+    '<p class="muted">已复制一串同步码到剪贴板。打开微信，发给家人；对方在「微信 → 从微信粘贴同步」粘贴即可同步最新数据（任务 / 晶石 / 记录）。</p>'+
+    '<label class="f">同步串（也可手动复制）</label><textarea id="syncStr" style="font-size:11px">'+esc(s)+'</textarea>'+
+    '<div style="height:14px"></div><button class="btn ghost" onclick="closeModal()">关闭</button>');
+}
+function pasteSync(){
+  openModal('<h2>📥 从微信粘贴同步</h2><p class="muted">把家人从微信发来的同步串粘贴到下面，导入即可同步对方的数据。导入会覆盖当前数据。</p>'+
+    '<textarea id="syncIn" placeholder="在此粘贴同步串"></textarea>'+
+    '<div style="height:14px"></div><div class="row"><button class="btn" onclick="doSyncImport()">导入同步</button>'+
+    '<button class="btn ghost" onclick="closeModal()">取消</button></div>');
+}
+function doSyncImport(){
+  const s=(document.getElementById('syncIn').value||'').trim();if(!s){toast('请粘贴同步串');return;}
+  try{const d=JSON.parse(b64decode(s));if(!d.db||!d.db.tasks)throw 0;
+    if(confirm('导入将覆盖当前数据，确定？')){DB=d.db;save();closeModal();render();toast('同步成功 ✅');}}catch(e){toast('同步串无效');}
+}
+
+/* ============ 全局点击委托（data-act） ============ */
+document.addEventListener('click',function(e){
+  var el=e.target.closest('[data-act]'); if(!el) return;
+  var a=el.getAttribute('data-act'); var id=el.getAttribute('data-id')||'';
+  if(a==='undoCheckin') undoCheckin(id);
+  else if(a==='doCheckin') doCheckin(id);
+  else if(a==='editTask') editTask(id);
+  else if(a==='toggleTask') toggleTask(id);
+  else if(a==='delTask') delTask(id);
+  else if(a==='reqExchange') reqExchange(id);
+  else if(a==='approveExchange') approveExchange(id);
+  else if(a==='rejectExchange') rejectExchange(id);
+  else if(a==='editShop') editShop(id);
+  else if(a==='toggleShop') toggleShop(id);
+  else if(a==='delShop') delShop(id);
+  else if(a==='approveWish') approveWish(id);
+  else if(a==='rejectWish') rejectWish(id);
+  else if(a==='editWish') editWish(id);
+  else if(a==='confirmSpeech') confirmSpeech(id);
+  else if(a==='openSpeak'){const t=DB.tasks.find(x=>x.id===id);if(t){window._spId=id;openSpeechCheckin(t);}}
+  else if(a==='saveTask') saveTask(id);
+  else if(a==='saveShop') saveShop(id);
+  else if(a==='approveWishAdj') approveWish(id,true);
+});
+
+/* ============ 启动 ============ */
+load();render();
+</script>
+</body>
+</html>
