@@ -36,7 +36,9 @@ header{
 }
 body.light header{background:linear-gradient(180deg,rgba(255,255,255,.94),rgba(255,255,255,.6))}
 .bar{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:10px 14px}
-.logo{font-size:20px;font-weight:800;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
+.logo{font-size:20px;font-weight:800;letter-spacing:.5px;display:flex;align-items:center;gap:6px;min-width:0}
+.logo-full{display:inline}
+.logo-short{display:none}
 .logo small{font-size:11px;font-weight:600;color:var(--sub)}
 .spacer{flex:1}
 .gem{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);
@@ -278,7 +280,9 @@ input,select,textarea{font-size:16px}
 /* 窄屏（手机）头部紧凑，Logo 可截断，防横向溢出 */
 @media(max-width:560px){
   .bar{gap:5px;padding:7px 9px}
-  .logo{font-size:14px;gap:4px;flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .logo{font-size:15px;gap:4px;flex:0 0 auto;min-width:0;white-space:nowrap}
+  .logo-full{display:none}
+  .logo-short{display:inline}
   .logo small{display:none}
   .iconbtn{width:34px;height:34px;font-size:15px}
   .role button{padding:5px 9px;font-size:11px}
@@ -402,7 +406,7 @@ input,select,textarea{font-size:16px}
 <body>
 <header>
   <div class="bar">
-    <div class="logo">🍬 爱心小软糖成长世界<small>个人工作台</small></div>
+    <div class="logo"><span class="logo-full">🍬 爱心小软糖成长世界</span><span class="logo-short">🍬 小软糖</span><small>个人工作台</small></div>
     <div class="spacer"></div>
     <div class="gem">💎 <b id="gemTop">0</b></div>
     <div class="role">
