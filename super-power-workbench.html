@@ -437,6 +437,8 @@ function seed(){
 function load(){try{DB=JSON.parse(localStorage.getItem(KEY))}catch(e){DB=null}
   if(!DB||!DB.tasks){DB=seed();save()}
   if(!DB.profile)DB.profile={childName:'星星'};
+  if(!DB.settings)DB.settings={};
+  if(!DB.settings.push)DB.settings.push={svc:'',key:''};
   /* 自动补齐新增的预设任务（老用户刷新即可看到更多默认选项） */
   if(DB.tasks&&Array.isArray(DB.tasks)){
     const have=new Set(DB.tasks.map(t=>t.title));
@@ -506,12 +508,30 @@ function importData(e){
   r.readAsText(f);
 }
 function openSettings(){
-  openModal('<h2>👤 设置</h2><label class="f">孩子昵称</label>'+
+  const ps=DB.settings.push||{svc:'',key:''};
+  const svcOpt=[{v:'',t:'关闭'},{v:'server',t:'Server酱'},{v:'pushplus',t:'PushPlus'}];
+  openModal('<h2>👤 设置</h2>'+
+    '<label class="f">孩子昵称</label>'+
     '<input id="cn" value="'+esc(DB.profile.childName)+'">'+
-    '<div style="height:16px"></div><div class="row"><button class="btn" onclick="saveSettings()">保存</button>'+
+    '<div style="height:18px"></div>'+
+    '<h3 style="margin:0 0 8px">💬 微信推送（孩子动态 → 家长微信）</h3>'+
+    '<p class="muted" style="margin:0 0 10px">在 <a href="https://sct.ftqq.com/" target="_blank" rel="noopener">Server酱</a> 或 <a href="https://www.pushplus.plus/" target="_blank" rel="noopener">PushPlus</a> 免费注册，拿到 Key 填下面。孩子打卡 / 申请兑换 / 心愿，家长微信立即收到提醒。</p>'+
+    '<label class="f">推送服务</label>'+
+    '<div class="seg" id="psvc">'+svcOpt.map(o=>'<button class="'+((ps.svc||'')===o.v?'on':'')+'" data-v="'+o.v+'" onclick="seg(this,\'psvc\')">'+o.t+'</button>').join('')+'</div>'+
+    '<label class="f">推送 Key</label>'+
+    '<input id="pkey" placeholder="粘贴你的 SENDKEY / Token" value="'+esc(ps.key||'')+'">'+
+    '<div class="small muted" style="margin-top:6px">Key 仅存本机浏览器，不会写进网页源码。</div>'+
+    '<div style="height:14px"></div><div class="row">'+
+    '<button class="btn" onclick="saveSettings()">保存</button>'+
+    '<button class="btn ghost" onclick="testPush()">📨 发送测试</button>'+
     '<button class="btn ghost" onclick="closeModal()">取消</button></div>');
 }
-function saveSettings(){DB.profile.childName=document.getElementById('cn').value.trim()||'星星';save();closeModal();render();toast('已保存');}
+function saveSettings(){
+  DB.profile.childName=document.getElementById('cn').value.trim()||'星星';
+  const svcEl=document.querySelector('#psvc .on');
+  DB.settings.push={svc:svcEl?svcEl.dataset.v:'', key:(document.getElementById('pkey').value||'').trim()};
+  save();closeModal();render();toast('已保存');
+}
 function resetData(){if(confirm('确定清空全部数据？此操作不可恢复！')){DB=seed();save();closeModal();render();toast('已清空');}}
 
 /* ============ 模态框 ============ */
@@ -1010,12 +1030,44 @@ function unreadWechat(){
 }
 function pushMsg(from,text,type){
   if(!DB.messages)DB.messages=[];
-  DB.messages.push({id:uid(),from,to:from==='parent'?'child':'parent',text,type,time:now(),read:false,ts:Date.now()});
+  const to=from==='parent'?'child':'parent';
+  DB.messages.push({id:uid(),from,to,text,type,time:now(),read:false,ts:Date.now()});
   save();
+  /* 发给家长的通知，同时推送到家长微信（单向联动） */
+  if(to==='parent') pushNotify('🍬 孩子的成长动态', text);
+}
+/* 微信单向推送：孩子打卡/申请 → 家长微信。支持 Server酱 / PushPlus，Key 仅存本机。 */
+function pushNotify(title, desp){
+  const ps=DB.settings.push||{};
+  if(!ps.svc||!ps.key) return Promise.resolve(false);
+  if(ps.svc==='server'){
+    const url='https://sctapi.ftqq.com/'+encodeURIComponent(ps.key)+'.send';
+    return fetch(url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:'title='+encodeURIComponent(title)+'&desp='+encodeURIComponent(desp)})
+      .then(r=>r.json()).then(j=>(j&&(j.code===0||j.errno===0))).catch(()=>false);
+  }
+  if(ps.svc==='pushplus'){
+    const url='https://www.pushplus.plus/send';
+    return fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({token:ps.key,title:title,content:desp,template:'html'})})
+      .then(r=>r.json()).then(j=>(j&&j.code===200)).catch(()=>false);
+  }
+  return Promise.resolve(false);
+}
+function testPush(){
+  const svcEl=document.querySelector('#psvc .on');
+  const svc=svcEl?svcEl.dataset.v:'';
+  const key=(document.getElementById('pkey').value||'').trim();
+  if(!svc||!key){toast('请先选择服务并填写 Key');return;}
+  DB.settings.push={svc:svc,key:key}; /* 先记住，便于测试 */
+  pushNotify('🍬 测试推送', '如果你在微信里收到这条，说明联动成功啦！').then(ok=>{
+    toast(ok?'✅ 测试已发送，去微信查看':'⚠️ 发送失败，请检查 Key');
+  });
 }
 function renderWeChat(){
   const msgs=(DB.messages||[]);
   msgs.forEach(m=>{if(m.to===role)m.read=true});save();
+  const ps=DB.settings.push||{}; const psOn=!!(ps.svc&&ps.key); const psName={server:'Server酱',pushplus:'PushPlus'}[ps.svc]||'';
   const chat=msgs.length?msgs.map(m=>{
     const mine=m.from===role;
     return '<div class="wx-msg '+(mine?'mine':'')+'">'+
@@ -1024,11 +1076,18 @@ function renderWeChat(){
       '<div class="wx-text">'+esc(m.text)+'</div>'+
       '<div class="wx-time">'+esc(m.time)+'</div></div></div>';
   }).join('') : '<div class="empty">还没有消息。<br>布置任务、打卡、兑换审批都会在这里以微信消息通知对方～</div>';
+  const status= psOn
+    ? '<div class="small" style="margin-top:8px;color:var(--good)">✅ 微信推送已开启（'+psName+'），家长微信会收到孩子动态</div>'
+    : '<div class="small" style="margin-top:8px;color:var(--bad)">⚠️ 尚未配置微信推送，点「配置」让爸妈在微信收到提醒</div>';
   const hint= role==='child'
     ? '<div class="card"><h3>💬 微信联动</h3><div class="muted">这是你和爸爸妈妈的专属聊天通道。打卡、兑换、心愿都会自动发消息通知对方，就像在微信里聊天一样～</div>'+
-      '<div class="row" style="margin-top:10px"><button class="btn ghost sm" onclick="pasteSync()">📥 从微信粘贴同步</button></div></div>'
+      status+
+      '<div class="row" style="margin-top:10px"><button class="btn ghost sm" onclick="openSettings()">⚙️ 配置微信推送</button>'+
+      '<button class="btn ghost sm" onclick="pasteSync()">📥 从微信粘贴同步</button></div></div>'
     : '<div class="card"><h3>💬 微信联动</h3><div class="muted">这里是和孩子的微信联动通道。孩子打卡、申请兑换/心愿会自动通知你；你布置任务、审批结果也会发给孩子。</div>'+
-      '<div class="row" style="margin-top:10px"><button class="btn ghost sm" onclick="genSync()">📤 生成同步串发给家人</button>'+
+      status+
+      '<div class="row" style="margin-top:10px"><button class="btn ghost sm" onclick="openSettings()">⚙️ 配置微信推送</button>'+
+      '<button class="btn ghost sm" onclick="genSync()">📤 生成同步串发给家人</button>'+
       '<button class="btn ghost sm" onclick="pasteSync()">📥 从微信粘贴同步</button></div></div>';
   return hint+'<div class="wx-chat">'+chat+'</div>';
 }
